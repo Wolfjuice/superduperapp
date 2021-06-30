@@ -6,10 +6,10 @@ public class Files {
     private String contenttype;
     private String filesize;
     private Integer userid;
-    private String filedata; // BLOB
+    private Byte filedata;
 
 
-    public Files(Integer fileid, String filename, String contenttype, String filesize, Integer userid, String filedata) {
+    public Files(Integer fileid, String filename, String contenttype, String filesize, Integer userid, Byte filedata) {
         this.fileid = fileid;
         this.filename = filename;
         this.contenttype = contenttype;
@@ -50,10 +50,10 @@ public class Files {
         this.userid = userid;
     }
 
-    public String getFiledata(){
+    public Byte getFiledata(){
         return this.filedata;
     }
-    public void setFiledata(String filedata) {
+    public void setFiledata(Byte filedata) {
         this.filedata = filedata;
     }
 

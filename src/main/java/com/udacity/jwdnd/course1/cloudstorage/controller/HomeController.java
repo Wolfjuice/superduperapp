@@ -4,9 +4,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@Controller
 @RequestMapping("/home")
 public class HomeController {
-    @GetMapping
+    @GetMapping()
     public String getHomePage(Model model) {
         return "home";
     }

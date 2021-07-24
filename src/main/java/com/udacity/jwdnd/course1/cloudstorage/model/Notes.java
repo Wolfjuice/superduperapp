@@ -1,50 +1,37 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
 public class Notes {
-    private Integer credentialid;
-    private String url;
-    private String username;
-    private String key;
-    private String password;
+    private Integer noteid;
+    private String notetitle;
+    private String notedescription;
     private Integer userid;
 
-    public Notes(Integer credentialid, String url, String username, String key, String password, Integer userid) {
-        this.credentialid = credentialid;
-        this.url = url;
-        this.username = username;
-        this.key = key;
-        this.password = password;
-        this.userid = userid;
+//    public Notes(Integer credentialid, String url, String username, String key, String password, Integer userid) {
+//        this.credentialid = credentialid;
+//        this.url = url;
+//        this.username = username;
+//        this.key = key;
+//        this.password = password;
+//        this.userid = userid;
+//    }
+    public Integer getId(){
+        return this.noteid;
     }
-    public Integer getCredentialId(){
-        return this.credentialid;
+    public void setId(Integer noteid) {
+        this.noteid = noteid;
     }
-    public void setCredentialId(Integer credentialid) {
-        this.credentialid = credentialid;
+    public String getTitle(){
+        return this.notetitle;
     }
-    public String getUrl(){
-        return this.url;
+    public void setTitle(String notetitle) {
+        this.notetitle = notetitle;
     }
-    public void setUrl(String url) {
-        this.url = url;
+    public String getDescription(){
+        return this.notedescription;
     }
-    public String getKey(){
-        return this.key;
+    public void setDescription(String notedescription) {
+        this.notedescription = notedescription;
     }
-    public void setKey(String key) {
-        this.key = key;
-    }
-    public String getPassword(){
-        return this.password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public Integer getUserId(){
-        return this.userid;
-    }
-    public void setUserId(Integer userid) {
-        this.userid = userid;
-    }
+
 
 }

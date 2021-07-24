@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface NoteMapper {
     @Select("SELECT * FROM NOTES")
-    List<Notes> getNote();
+    List<Notes> getNotes();
 
     @Insert("INSERT INTO NOTES (notetitle, notedescription, userid) VALUES(#{notetitle}, #{notedescription}, #{userid})")
     @Options(useGeneratedKeys = true, keyProperty = "noteid")

@@ -3,16 +3,16 @@ package com.udacity.jwdnd.course1.cloudstorage.model;
 
 
 public class NoteForm {
-    private String username;
+    private Integer id;
     private String title;
     private String description;
 
-    public String getUsername() {
-        return username;
+    public Integer getId() {
+        return this.id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {

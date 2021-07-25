@@ -1,36 +1,49 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
 public class Credentials {
-    private Integer noteid;
-    private String notetitle;
-    private String notedescription;
+    private Integer credentialid;
+    private String url;
+    private String username;
+    private String key;
+    private String password;
     private Integer userid;
 
-    public Credentials(Integer noteid, String notetitle, String notedescription, Integer userid) {
-        this.noteid = noteid;
-        this.notetitle = notetitle;
-        this.notedescription = notedescription;
-        this.userid = userid;
-    }
+//    public Credentials(Integer credentialid, String url, String username, String key, String password, Integer userid) {
+//
+//    }
 
 
-    public Integer getNoteid(){
-        return this.noteid;
+    public Integer getCredentialid(){
+        return this.credentialid;
     }
-    public void setNoteid(Integer noteid) { this.noteid = noteid;}
+    public void setCredentialid(Integer credentialid) { this.credentialid = credentialid;}
 
-    public String getNotetitle(){
-        return this.notetitle;
+    public String getUrl(){
+        return this.url;
     }
-    public void setNotetitle(String notetitle) {
-        this.notetitle = notetitle;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getNotedescription(){
-        return this.notedescription;
+    public String getUsername(){
+        return this.username;
     }
-    public void setNotedescription(String notedescription) {
-        this.notedescription = notedescription;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getKey(){
+        return this.key;
+    }
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getPassword(){
+        return this.password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getUserId(){

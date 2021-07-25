@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
 public class CredentialForm {
+    private Integer userid;
     private String url;
     private String username;
     private String password;
@@ -27,5 +28,13 @@ public class CredentialForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getId() {
+        return userid;
+    }
+
+    public void setId(Integer userid) {
+        this.userid = userid;
     }
 }

@@ -44,8 +44,7 @@ public class HomeController {
             this.noteService.addNote(noteForm);
             noteForm.setTitle("");
             noteForm.setDescription("");
-//        System.out.print(this.noteService.getNotes().size());
-//        System.out.print("Sweet");
+            model.addAttribute("noteList", this.noteService.getNotes());
             System.out.println("Bitter");
             return "home";
         }

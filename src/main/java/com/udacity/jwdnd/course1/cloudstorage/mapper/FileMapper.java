@@ -5,11 +5,12 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import java.util.List;
 
 @Mapper
 public interface FileMapper {
     @Select("SELECT * FROM FILES")
-    Files getFile();
+    List<Files> getFile();
 
     @Insert("INSERT INTO FILES (filename, contenttype, filesize, userid, filedata) VALUES(#{filename}, #{contenttype}, #{filesize}  #{userid}, #{filedata})")
     @Options(useGeneratedKeys = true, keyProperty = "fileid")

@@ -1,9 +1,8 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
-import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
-import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
-import com.udacity.jwdnd.course1.cloudstorage.model.Users;
+import com.udacity.jwdnd.course1.cloudstorage.model.*;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
+import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
@@ -12,17 +11,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping("/home")
 public class HomeController {
+    private FileService fileService;
     private UserService userService;
     private NoteService noteService;
     private CredentialService credentialService;
 
-    public HomeController(UserService userService, NoteService noteService, CredentialService credentialService) {
+    public HomeController(UserService userService, NoteService noteService, CredentialService credentialService, FileService fileService) {
         this.userService = userService;
         this.noteService = noteService;
         this.credentialService = credentialService;
+        this.fileService = fileService;
     }
     @GetMapping()
     public String getHomePage(Model model) {
@@ -32,7 +35,7 @@ public class HomeController {
     }
 
     @PostMapping()
-    public String sendData(Authentication authentication, NoteForm noteForm, CredentialForm credentialForm, Model model) {
+    public String sendData(Authentication authentication, FileForm fileForm, NoteForm noteForm, CredentialForm credentialForm, Model model) {
         System.out.println(noteForm.getTitle());
         System.out.println(noteForm.getDescription());
         System.out.println(credentialForm.getUrl());
@@ -55,8 +58,33 @@ public class HomeController {
             credentialForm.setPassword("");
             credentialForm.setUsername("");
             credentialForm.setUrl("");
+            model.addAttribute("credentialList", this.credentialService.getCredentials());
             System.out.println("Sweet");
             return "home";
+        }
+
+        if(fileForm.getFileUpload() != null){
+            try {
+                String filename = fileForm.getFileUpload().getOriginalFilename();
+                String contentType = fileForm.getFileUpload().getContentType();
+                byte[] fileBytes = fileForm.getFileUpload().getBytes();
+                String fileSize = String.valueOf(fileForm.getFileUpload().getSize());
+                int userId = this.userService.getUser(authentication.getName()).getUserId();
+
+                System.out.println("======= FILE INFO =======");
+                System.out.println("FILENAME: " + filename);
+                System.out.println("CONTENT-TYPE: " + contentType);
+                System.out.println("FILE BYTES: " + fileBytes.length);
+                System.out.println("FILE SIZE: " + fileSize);
+                System.out.println("USER ID: " + userId);
+
+                Files file = new Files(null, filename, contentType, fileSize, userId, fileBytes);
+                this.fileService.addFile(file);
+                model.addAttribute("fileList", this.fileService.getFiles());
+
+            } catch(IOException ioException){
+                System.out.println(ioException.getMessage());
+            }
         }
         return "home";
 
@@ -68,5 +96,13 @@ public class HomeController {
     @ModelAttribute("noteForm")
     public NoteForm getNoteForm(){
         return new NoteForm();
+    }
+    @ModelAttribute("fileForm")
+    public FileForm getFileForm(){
+        return new FileForm();
+    }
+    @ModelAttribute("oneFile")
+    public Files getAFile(){
+        return new Files();
     }
 }

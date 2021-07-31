@@ -80,6 +80,7 @@ public class HomeController {
 
                 Files file = new Files(null, filename, contentType, fileSize, userId, fileBytes);
                 this.fileService.addFile(file);
+                System.out.println(fileBytes);
                 model.addAttribute("fileList", this.fileService.getFiles());
 
             } catch(IOException ioException){

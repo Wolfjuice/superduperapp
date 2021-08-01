@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/home")
@@ -42,25 +43,44 @@ public class HomeController {
         System.out.println(credentialForm.getUsername());
         System.out.println(credentialForm.getPassword());
         if(noteForm.getDescription() != null || noteForm.getTitle() != null){
-            Users targetuser = this.userService.getUser(authentication.getName());
-            noteForm.setId(targetuser.getUserId());
-            this.noteService.addNote(noteForm);
-            noteForm.setTitle("");
-            noteForm.setDescription("");
-            model.addAttribute("noteList", this.noteService.getNotes());
-            System.out.println("Bitter");
-            return "home";
+            if(noteForm.getId() == null){
+                Users targetuser = this.userService.getUser(authentication.getName());
+                noteForm.setUId(targetuser.getUserId());
+                this.noteService.addNote(noteForm);
+                noteForm.setTitle("");
+                noteForm.setDescription("");
+                model.addAttribute("noteList", this.noteService.getNotes());
+                System.out.println("Bitter");
+                return "home";
+            }
+            else{
+                // Note needs to be updated
+                System.out.println("NOTE ID: " + noteForm.getId());
+                System.out.println("NOTE TITLE: " + noteForm.getTitle());
+                System.out.println("NOTE DESCRIPTION: " + noteForm.getDescription());
+                model.addAttribute("noteList", this.noteService.getNotes());
+                return "home";
+            }
+
         }
         if(credentialForm.getUrl() != null && credentialForm.getUsername() != null && credentialForm.getPassword() != null){
-            Users targetuser = this.userService.getUser(authentication.getName());
-            credentialForm.setId(targetuser.getUserId());
-            this.credentialService.addCredential(credentialForm);
-            credentialForm.setPassword("");
-            credentialForm.setUsername("");
-            credentialForm.setUrl("");
-            model.addAttribute("credentialList", this.credentialService.getCredentials());
-            System.out.println("Sweet");
-            return "home";
+            if(credentialForm.getCId() == null){
+                Users targetuser = this.userService.getUser(authentication.getName());
+                credentialForm.setId(targetuser.getUserId());
+                this.credentialService.addCredential(credentialForm);
+                credentialForm.setPassword("");
+                credentialForm.setUsername("");
+                credentialForm.setUrl("");
+                model.addAttribute("credentialList", this.credentialService.getCredentials());
+                System.out.println("Sweet");
+                return "home";
+            }
+            else{
+                model.addAttribute("credentialList", this.credentialService.getCredentials());
+                return "home";
+            }
+
+
         }
 
         if(fileForm.getFileUpload() != null){
@@ -106,4 +126,14 @@ public class HomeController {
     public Files getAFile(){
         return new Files();
     }
+
+//    @ModelAttribute("credentialList")
+//    public List<Credentials> CredList(){
+//        return this.credentialService.getCredentials();
+//    }
+//
+//    @ModelAttribute("noteList")
+//    public List<Notes> NoteList(){
+//        return this.noteService.getNotes();
+//    }
 }

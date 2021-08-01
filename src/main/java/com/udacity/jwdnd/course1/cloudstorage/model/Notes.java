@@ -32,6 +32,12 @@ public class Notes {
     public void setDescription(String notedescription) {
         this.notedescription = notedescription;
     }
+    public Integer getUserId(){
+        return this.userid;
+    }
+    public void setUserId(Integer userid) {
+        this.userid = userid;
+    }
 
 
 }

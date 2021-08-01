@@ -6,6 +6,7 @@ public class NoteForm {
     private Integer id;
     private String title;
     private String description;
+    private Integer uid;
 
     public Integer getId() {
         return this.id;
@@ -13,6 +14,14 @@ public class NoteForm {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUId() {
+        return this.uid;
+    }
+
+    public void setUId(Integer uid) {
+        this.uid = uid;
     }
 
     public String getTitle() {

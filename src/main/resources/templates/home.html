@@ -86,7 +86,7 @@
                                     <tr th:each = "oneNote : ${noteList}">
                                         <td>
                                             <button type="button" class="btn btn-success" th:onclick = "showNoteModal([[${oneNote.id}]], [[${oneNote.title}]], [[${oneNote.description}]])">Edit</button>
-                                            <a class="btn btn-danger">Delete</a>
+                                            <a class="btn btn-danger" th:action="@{/home}">Delete</a>
                                         </td>
                                         <th scope="row" th:text = "${oneNote.title}">Example Note Title</th>
                                         <td th:text = "${oneNote.description}">Example Note Description </td>

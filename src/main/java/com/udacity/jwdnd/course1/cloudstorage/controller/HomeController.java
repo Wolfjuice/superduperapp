@@ -50,6 +50,8 @@ public class HomeController {
                 noteForm.setTitle("");
                 noteForm.setDescription("");
                 model.addAttribute("noteList", this.noteService.getNotes());
+                model.addAttribute("fileList", this.fileService.getFiles());
+                model.addAttribute("credentialList", this.credentialService.getCredentials());
                 System.out.println("Bitter");
                 return "home";
             }
@@ -58,7 +60,14 @@ public class HomeController {
                 System.out.println("NOTE ID: " + noteForm.getId());
                 System.out.println("NOTE TITLE: " + noteForm.getTitle());
                 System.out.println("NOTE DESCRIPTION: " + noteForm.getDescription());
+                Users targetuser = this.userService.getUser(authentication.getName());
+                noteForm.setUId(targetuser.getUserId());
+                this.noteService.updateNote(noteForm);
+                noteForm.setTitle("");
+                noteForm.setDescription("");
                 model.addAttribute("noteList", this.noteService.getNotes());
+                model.addAttribute("fileList", this.fileService.getFiles());
+                model.addAttribute("credentialList", this.credentialService.getCredentials());
                 return "home";
             }
 
@@ -72,11 +81,15 @@ public class HomeController {
                 credentialForm.setUsername("");
                 credentialForm.setUrl("");
                 model.addAttribute("credentialList", this.credentialService.getCredentials());
+                model.addAttribute("fileList", this.fileService.getFiles());
+                model.addAttribute("noteList", this.noteService.getNotes());
                 System.out.println("Sweet");
                 return "home";
             }
             else{
                 model.addAttribute("credentialList", this.credentialService.getCredentials());
+                model.addAttribute("fileList", this.fileService.getFiles());
+                model.addAttribute("noteList", this.noteService.getNotes());
                 return "home";
             }
 
@@ -102,6 +115,8 @@ public class HomeController {
                 this.fileService.addFile(file);
                 System.out.println(fileBytes);
                 model.addAttribute("fileList", this.fileService.getFiles());
+                model.addAttribute("noteList", this.noteService.getNotes());
+                model.addAttribute("credentialList", this.credentialService.getCredentials());
 
             } catch(IOException ioException){
                 System.out.println(ioException.getMessage());
@@ -127,13 +142,18 @@ public class HomeController {
         return new Files();
     }
 
-//    @ModelAttribute("credentialList")
-//    public List<Credentials> CredList(){
-//        return this.credentialService.getCredentials();
-//    }
-//
-//    @ModelAttribute("noteList")
-//    public List<Notes> NoteList(){
-//        return this.noteService.getNotes();
-//    }
+    @ModelAttribute("credentialList")
+    public List<Credentials> CredList(){
+        return this.credentialService.getCredentials();
+    }
+
+    @ModelAttribute("noteList")
+    public List<Notes> NoteList(){
+        return this.noteService.getNotes();
+    }
+
+    @ModelAttribute("fileList")
+    public List<Files> FileList(){
+        return this.fileService.getFiles();
+    }
 }

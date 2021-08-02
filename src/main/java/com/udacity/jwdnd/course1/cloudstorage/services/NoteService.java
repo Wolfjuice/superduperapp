@@ -28,6 +28,16 @@ public class NoteService {
         System.out.println("Note is Submitted Note is Submitted Note is Submitted Note is Submitted Note is Submitted Note is Submitted");
     }
 
+    public void updateNote(NoteForm noteForm) {
+        Notes note = new Notes();
+        note.setId(noteForm.getId());
+        note.setUserId(noteForm.getUId());
+        note.setDescription(noteForm.getDescription());
+        note.setTitle(noteForm.getTitle());
+        noteMapper.update(note);
+        System.out.println("Note is Submitted Note is Submitted Note is Submitted Note is Submitted Note is Submitted Note is Submitted");
+    }
+
     public List<Notes> getNotes() {
         return noteMapper.getNotes();
     }

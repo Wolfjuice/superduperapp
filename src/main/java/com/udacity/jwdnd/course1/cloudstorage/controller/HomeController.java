@@ -87,6 +87,13 @@ public class HomeController {
                 return "home";
             }
             else{
+                System.out.println(credentialForm.getCId());
+                Users targetuser = this.userService.getUser(authentication.getName());
+                credentialForm.setId(targetuser.getUserId());
+                this.credentialService.updateCredential(credentialForm);
+                credentialForm.setPassword("");
+                credentialForm.setUsername("");
+                credentialForm.setUrl("");
                 model.addAttribute("credentialList", this.credentialService.getCredentials());
                 model.addAttribute("fileList", this.fileService.getFiles());
                 model.addAttribute("noteList", this.noteService.getNotes());

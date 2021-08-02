@@ -144,7 +144,7 @@
                                 <tbody>
                                 <tr th:each = "cred : ${credentialList}">
                                     <td>
-                                        <button type="button" class="btn btn-success" th:onclick = "showCredentialModal([[${cred.id}]], [[${cred.url}]], [[${cred.username}]], [[${cred.password}]])">Edit</button>
+                                        <button type="button" class="btn btn-success" th:onclick = "showCredentialModal([[${cred.credentialid}]], [[${cred.url}]], [[${cred.username}]], [[${cred.password}]])">Edit</button>
                                         <a class="btn btn-danger">Delete</a>
                                     </td>
                                     <th scope="row" th:text = "${cred.url}" >Example Credential URL</th>

@@ -73,9 +73,9 @@ public class HomeController {
 
         }
         if(credentialForm.getUrl() != null && credentialForm.getUsername() != null && credentialForm.getPassword() != null){
-            if(credentialForm.getCId() == null){
+            if(credentialForm.getId() == null){
                 Users targetuser = this.userService.getUser(authentication.getName());
-                credentialForm.setId(targetuser.getUserId());
+                credentialForm.setUserId(targetuser.getUserId());
                 this.credentialService.addCredential(credentialForm);
                 credentialForm.setPassword("");
                 credentialForm.setUsername("");
@@ -87,9 +87,8 @@ public class HomeController {
                 return "home";
             }
             else{
-                System.out.println(credentialForm.getCId());
                 Users targetuser = this.userService.getUser(authentication.getName());
-                credentialForm.setId(targetuser.getUserId());
+                credentialForm.setUserId(targetuser.getUserId());
                 this.credentialService.updateCredential(credentialForm);
                 credentialForm.setPassword("");
                 credentialForm.setUsername("");

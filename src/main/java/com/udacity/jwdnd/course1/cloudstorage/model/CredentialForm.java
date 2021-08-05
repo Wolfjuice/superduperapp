@@ -31,19 +31,19 @@ public class CredentialForm {
         this.password = password;
     }
 
-    public Integer getId() {
+    public Integer getUserId() {
         return userid;
     }
 
-    public void setId(Integer userid) {
+    public void setUserId(Integer userid) {
         this.userid = userid;
     }
 
-    public Integer getCId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setCId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

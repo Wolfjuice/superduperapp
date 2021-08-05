@@ -19,7 +19,7 @@ public class CredentialService {
         credential.setUrl(cform.getUrl());
         credential.setUsername(cform.getUsername());
         credential.setPassword(cform.getPassword());
-        credential.setUserId(cform.getId());
+        credential.setUserId(cform.getUserId());
         credentialMapper.insert(credential);
     }
     public void updateCredential(CredentialForm cform){
@@ -28,8 +28,8 @@ public class CredentialService {
         credential.setUrl(cform.getUrl());
         credential.setUsername(cform.getUsername());
         credential.setPassword(cform.getPassword());
-        credential.setUserId(cform.getId());
-        credential.setCredentialid(cform.getCId());
+        credential.setUserId(cform.getUserId());
+        credential.setCredentialid(cform.getId());
         credentialMapper.update(credential);
         System.out.println("Credential is updated");
     }

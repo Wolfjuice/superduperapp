@@ -131,6 +131,18 @@ public class HomeController {
         return "home";
 
     }
+
+    @GetMapping("/file/view/{fileId}")
+    public String viewed(Model model){
+        System.out.println("File is viewed");
+        return "home";
+    }
+    @GetMapping("/file/delete/{fileId}")
+    public String deleted(Model model){
+        System.out.println("File is deleted");
+        return "home";
+    }
+
     @ModelAttribute("credentialForm")
     public CredentialForm getCredentialForm(){
         return new CredentialForm();

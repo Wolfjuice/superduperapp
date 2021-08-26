@@ -38,6 +38,10 @@ public class NoteService {
         System.out.println("Note is Submitted Note is Submitted Note is Submitted Note is Submitted Note is Submitted Note is Submitted");
     }
 
+    public void deleteNote(Integer id) {
+        noteMapper.delete(id);
+    }
+
     public List<Notes> getNotes() {
         return noteMapper.getNotes();
     }

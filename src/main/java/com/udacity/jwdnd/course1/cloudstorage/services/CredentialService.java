@@ -11,27 +11,48 @@ import java.util.List;
 @Service
 public class CredentialService {
     private CredentialMapper credentialMapper;
-    public CredentialService(CredentialMapper credentialMapper){this.credentialMapper = credentialMapper;}
+    private EncryptionService encryptionService;
+    public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService){
+        this.credentialMapper = credentialMapper;
+        this.encryptionService = encryptionService;
+
+    }
 
     public void addCredential(CredentialForm cform){
         Credentials credential = new Credentials();
-        credential.setKey("abc");
+        credential.setKey(encryptionService.generateKey());
         credential.setUrl(cform.getUrl());
         credential.setUsername(cform.getUsername());
         credential.setPassword(cform.getPassword());
         credential.setUserId(cform.getUserId());
         credentialMapper.insert(credential);
+        System.out.println(credential.getCredentialid());
+        System.out.println(credential.getUrl());
+        System.out.println(credential.getUsername());
+        System.out.println(credential.getPassword());
+        System.out.println(credential.getUserId());
+        System.out.println("Key " + credential.getKey());
+
     }
     public void updateCredential(CredentialForm cform){
         Credentials credential = new Credentials();
-        credential.setKey("abc");
+        credential.setKey(encryptionService.generateKey());
         credential.setUrl(cform.getUrl());
         credential.setUsername(cform.getUsername());
         credential.setPassword(cform.getPassword());
         credential.setUserId(cform.getUserId());
         credential.setCredentialid(cform.getId());
         credentialMapper.update(credential);
-        System.out.println("Credential is updated");
+        System.out.println(credential.getCredentialid());
+        System.out.println(credential.getUrl());
+        System.out.println(credential.getUsername());
+        System.out.println(credential.getPassword());
+        System.out.println(credential.getUserId());
+        System.out.println("Key " + credential.getKey());
+    }
+
+    public void deleteCredential(Integer id){
+        credentialMapper.delete(id);
     }
 
     public List<Credentials> getCredentials() {

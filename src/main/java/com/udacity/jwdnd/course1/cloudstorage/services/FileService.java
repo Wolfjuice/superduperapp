@@ -16,5 +16,13 @@ public class FileService {
         fileMapper.insert(file);
         System.out.println("File is Submitted File is Submitted File is Submitted File is Submitted File is Submitted ");
     }
+    public Files getFileById(Integer id) {
+        return this.fileMapper.getFileById(id);
+    }
+
+    public void deleteFile(Integer id){
+        fileMapper.delete(id);
+    }
+
     public List<Files> getFiles(){ return fileMapper.getFile();}
 }

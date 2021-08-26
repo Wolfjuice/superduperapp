@@ -5,6 +5,9 @@ import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,11 +40,7 @@ public class HomeController {
 
     @PostMapping()
     public String sendData(Authentication authentication, FileForm fileForm, NoteForm noteForm, CredentialForm credentialForm, Model model) {
-        System.out.println(noteForm.getTitle());
-        System.out.println(noteForm.getDescription());
-        System.out.println(credentialForm.getUrl());
-        System.out.println(credentialForm.getUsername());
-        System.out.println(credentialForm.getPassword());
+
         if(noteForm.getDescription() != null || noteForm.getTitle() != null){
             if(noteForm.getId() == null){
                 Users targetuser = this.userService.getUser(authentication.getName());
@@ -53,7 +52,7 @@ public class HomeController {
                 model.addAttribute("fileList", this.fileService.getFiles());
                 model.addAttribute("credentialList", this.credentialService.getCredentials());
                 System.out.println("Bitter");
-                return "home";
+                return "result";
             }
             else{
                 // Note needs to be updated
@@ -83,7 +82,6 @@ public class HomeController {
                 model.addAttribute("credentialList", this.credentialService.getCredentials());
                 model.addAttribute("fileList", this.fileService.getFiles());
                 model.addAttribute("noteList", this.noteService.getNotes());
-                System.out.println("Sweet");
                 return "home";
             }
             else{
@@ -133,13 +131,40 @@ public class HomeController {
     }
 
     @GetMapping("/file/view/{fileId}")
-    public String viewed(Model model){
-        System.out.println("File is viewed");
-        return "home";
+    public ResponseEntity<byte[]> viewed(@PathVariable("fileId") Integer fileId, Model model){
+        System.out.println("File " + fileId + "is viewed");
+        Files file = fileService.getFileById(fileId);
+        String filename = file.getFilename();
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(file.getContenttype()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\""+filename+"\"")
+                .body(file.getFiledata());
     }
     @GetMapping("/file/delete/{fileId}")
-    public String deleted(Model model){
-        System.out.println("File is deleted");
+    public String deleted(@PathVariable("fileId") Integer fileId, Model model){
+        System.out.println("File " + fileId + " is deleted");
+        this.fileService.deleteFile(fileId);
+        model.addAttribute("fileList", this.fileService.getFiles());
+        model.addAttribute("noteList", this.noteService.getNotes());
+        model.addAttribute("credentialList", this.credentialService.getCredentials());
+        return "home";
+    }
+    @GetMapping("/note/delete/{noteId}")
+    public String notedeleted(@PathVariable("noteId") Integer noteId, Model model){
+        System.out.println("Note " + noteId + " is deleted");
+        this.noteService.deleteNote(noteId);
+        model.addAttribute("fileList", this.fileService.getFiles());
+        model.addAttribute("noteList", this.noteService.getNotes());
+        model.addAttribute("credentialList", this.credentialService.getCredentials());
+        return "home";
+    }
+    @GetMapping("/credential/delete/{credId}")
+    public String creddeleted(@PathVariable("credId") Integer credId, Model model){
+        System.out.println("Credential " + credId + " is deleted");
+        this.credentialService.deleteCredential(credId);
+        model.addAttribute("fileList", this.fileService.getFiles());
+        model.addAttribute("noteList", this.noteService.getNotes());
+        model.addAttribute("credentialList", this.credentialService.getCredentials());
         return "home";
     }
 

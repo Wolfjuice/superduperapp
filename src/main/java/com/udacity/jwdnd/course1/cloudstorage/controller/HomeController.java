@@ -167,6 +167,16 @@ public class HomeController {
         model.addAttribute("credentialList", this.credentialService.getCredentials());
         return "home";
     }
+    @GetMapping("/note/delete/{noteId}")
+    public String notedeleted(Model model){
+        System.out.println("Note is deleted");
+        return "home";
+    }
+    @GetMapping("/credential/delete/{credId}")
+    public String creddeleted(Model model){
+        System.out.println("Credential is deleted");
+        return "home";
+    }
 
     @ModelAttribute("credentialForm")
     public CredentialForm getCredentialForm(){

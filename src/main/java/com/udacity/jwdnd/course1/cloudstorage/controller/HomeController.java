@@ -24,7 +24,6 @@ public class HomeController {
     private UserService userService;
     private NoteService noteService;
     private CredentialService credentialService;
-
     public HomeController(UserService userService, NoteService noteService, CredentialService credentialService, FileService fileService) {
         this.userService = userService;
         this.noteService = noteService;
@@ -37,22 +36,27 @@ public class HomeController {
 //        model.addAttribute("credentialForm",new CredentialForm());
         return "home";
     }
-
     @PostMapping()
     public String sendData(Authentication authentication, FileForm fileForm, NoteForm noteForm, CredentialForm credentialForm, Model model) {
-
         if(noteForm.getDescription() != null || noteForm.getTitle() != null){
             if(noteForm.getId() == null){
                 Users targetuser = this.userService.getUser(authentication.getName());
                 noteForm.setUId(targetuser.getUserId());
-                this.noteService.addNote(noteForm);
+                int queryResult = this.noteService.addNote(noteForm);
+                if(queryResult == 1){
+                    model.addAttribute("successOperation",true);
+                    model.addAttribute("successMessage","Your note was added successfully!!!!");
+                } else {
+                    model.addAttribute("errorOperation",true);
+                    model.addAttribute("errorMessage","Your note was not inserted. Please retry the operation!!!!");
+                }
                 noteForm.setTitle("");
                 noteForm.setDescription("");
                 model.addAttribute("noteList", this.noteService.getNotes());
                 model.addAttribute("fileList", this.fileService.getFiles());
                 model.addAttribute("credentialList", this.credentialService.getCredentials());
                 System.out.println("Bitter");
-                return "result";
+                return "home";
             }
             else{
                 // Note needs to be updated
@@ -69,7 +73,6 @@ public class HomeController {
                 model.addAttribute("credentialList", this.credentialService.getCredentials());
                 return "home";
             }
-
         }
         if(credentialForm.getUrl() != null && credentialForm.getUsername() != null && credentialForm.getPassword() != null){
             if(credentialForm.getId() == null){
@@ -96,10 +99,7 @@ public class HomeController {
                 model.addAttribute("noteList", this.noteService.getNotes());
                 return "home";
             }
-
-
         }
-
         if(fileForm.getFileUpload() != null){
             try {
                 String filename = fileForm.getFileUpload().getOriginalFilename();
@@ -107,29 +107,24 @@ public class HomeController {
                 byte[] fileBytes = fileForm.getFileUpload().getBytes();
                 String fileSize = String.valueOf(fileForm.getFileUpload().getSize());
                 int userId = this.userService.getUser(authentication.getName()).getUserId();
-
                 System.out.println("======= FILE INFO =======");
                 System.out.println("FILENAME: " + filename);
                 System.out.println("CONTENT-TYPE: " + contentType);
                 System.out.println("FILE BYTES: " + fileBytes.length);
                 System.out.println("FILE SIZE: " + fileSize);
                 System.out.println("USER ID: " + userId);
-
                 Files file = new Files(null, filename, contentType, fileSize, userId, fileBytes);
                 this.fileService.addFile(file);
                 System.out.println(fileBytes);
                 model.addAttribute("fileList", this.fileService.getFiles());
                 model.addAttribute("noteList", this.noteService.getNotes());
                 model.addAttribute("credentialList", this.credentialService.getCredentials());
-
             } catch(IOException ioException){
                 System.out.println(ioException.getMessage());
             }
         }
         return "home";
-
     }
-
     @GetMapping("/file/view/{fileId}")
     public ResponseEntity<byte[]> viewed(@PathVariable("fileId") Integer fileId, Model model){
         System.out.println("File " + fileId + "is viewed");
@@ -167,17 +162,16 @@ public class HomeController {
         model.addAttribute("credentialList", this.credentialService.getCredentials());
         return "home";
     }
-    @GetMapping("/note/delete/{noteId}")
-    public String notedeleted(Model model){
-        System.out.println("Note is deleted");
-        return "home";
-    }
-    @GetMapping("/credential/delete/{credId}")
-    public String creddeleted(Model model){
-        System.out.println("Credential is deleted");
-        return "home";
-    }
-
+    //    @GetMapping("/note/delete/{noteId}")
+//    public String notedeleted(Model model){
+//        System.out.println("Note is deleted");
+//        return "home";
+//    }
+//    @GetMapping("/credential/delete/{credId}")
+//    public String creddeleted(Model model){
+//        System.out.println("Credential is deleted");
+//        return "home";
+//    }
     @ModelAttribute("credentialForm")
     public CredentialForm getCredentialForm(){
         return new CredentialForm();
@@ -194,17 +188,14 @@ public class HomeController {
     public Files getAFile(){
         return new Files();
     }
-
     @ModelAttribute("credentialList")
     public List<Credentials> CredList(){
         return this.credentialService.getCredentials();
     }
-
     @ModelAttribute("noteList")
     public List<Notes> NoteList(){
         return this.noteService.getNotes();
     }
-
     @ModelAttribute("fileList")
     public List<Files> FileList(){
         return this.fileService.getFiles();

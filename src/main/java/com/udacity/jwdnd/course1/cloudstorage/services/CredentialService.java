@@ -20,10 +20,11 @@ public class CredentialService {
 
     public void addCredential(CredentialForm cform){
         Credentials credential = new Credentials();
-        credential.setKey(encryptionService.generateKey());
+        String theKey = encryptionService.generateKey();
+        credential.setKey(theKey);
         credential.setUrl(cform.getUrl());
         credential.setUsername(cform.getUsername());
-        credential.setPassword(cform.getPassword());
+        credential.setPassword(encryptionService.encryptValue(cform.getPassword(), theKey));
         credential.setUserId(cform.getUserId());
         credentialMapper.insert(credential);
         System.out.println(credential.getCredentialid());
@@ -36,10 +37,15 @@ public class CredentialService {
     }
     public void updateCredential(CredentialForm cform){
         Credentials credential = new Credentials();
-        credential.setKey(encryptionService.generateKey());
+        String theKey = encryptionService.generateKey();
+//        String oldPassword = credentialMapper.findCredential(cform.getId()).getPassword();
+//        if(){
+//
+//        }
+        credential.setKey(theKey);
         credential.setUrl(cform.getUrl());
         credential.setUsername(cform.getUsername());
-        credential.setPassword(cform.getPassword());
+        credential.setPassword(encryptionService.encryptValue(cform.getPassword(), theKey));
         credential.setUserId(cform.getUserId());
         credential.setCredentialid(cform.getId());
         credentialMapper.update(credential);

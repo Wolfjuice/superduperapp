@@ -13,21 +13,18 @@ public class NoteService {
     public NoteService(NoteMapper noteMapper) {
         this.noteMapper = noteMapper;
     }
-
     @PostConstruct
     public void postConstruct() {
         System.out.println("Creating NoteService bean");
     }
-
-    public void addNote(NoteForm noteForm) {
+    public int addNote(NoteForm noteForm) {
         Notes note = new Notes();
         note.setUserId(noteForm.getUId());
         note.setDescription(noteForm.getDescription());
         note.setTitle(noteForm.getTitle());
-        noteMapper.insert(note);
         System.out.println("Note is Submitted Note is Submitted Note is Submitted Note is Submitted Note is Submitted Note is Submitted");
+        return noteMapper.insert(note);
     }
-
     public void updateNote(NoteForm noteForm) {
         Notes note = new Notes();
         note.setId(noteForm.getId());
@@ -37,13 +34,10 @@ public class NoteService {
         noteMapper.update(note);
         System.out.println("Note is Submitted Note is Submitted Note is Submitted Note is Submitted Note is Submitted Note is Submitted");
     }
-
     public void deleteNote(Integer id) {
         noteMapper.delete(id);
     }
-
     public List<Notes> getNotes() {
         return noteMapper.getNotes();
     }
-
 }
